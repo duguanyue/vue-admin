@@ -22,7 +22,7 @@ export default {
 
     //登录
     mock.onPost('/login').reply(config => {
-      let {username, password} = JSON.parse(config.data);
+      let { username, password } = JSON.parse(config.data);
       return new Promise((resolve, reject) => {
         let user = null;
         setTimeout(() => {
@@ -45,7 +45,7 @@ export default {
 
     //获取用户列表
     mock.onGet('/user/list').reply(config => {
-      let {name} = config.params;
+      let { name } = config.params;
       let mockUsers = _Users.filter(user => {
         if (name && user.name.indexOf(name) == -1) return false;
         return true;
@@ -61,13 +61,13 @@ export default {
 
     //获取用户列表（分页）
     mock.onGet('/user/listpage').reply(config => {
-      let {page, name} = config.params;
+      let { page, size, name } = config.params;
       let mockUsers = _Users.filter(user => {
         if (name && user.name.indexOf(name) == -1) return false;
         return true;
       });
       let total = mockUsers.length;
-      mockUsers = mockUsers.filter((u, index) => index < 20 * page && index >= 20 * (page - 1));
+      mockUsers = mockUsers.filter((u, index) => index < size * page && index >= size * (page - 1));
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           resolve([200, {
